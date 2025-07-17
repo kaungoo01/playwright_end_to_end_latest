@@ -14,7 +14,7 @@ Before(async function () {
     this.poManager = new POManager(this.page);
 });
 
-//Hooks with tags before for every secnario
+//Hooks with tags before for every secnarios
 
 BeforeStep(async function () {
     // This hook will be executed before scenarios tagged with @Regression

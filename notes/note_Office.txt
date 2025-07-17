@@ -1730,9 +1730,43 @@ Quick start: Run Playwright tests at scale - Azure >
 
 git commit -m "Initial commit of Playwright test project with Cucumber setup"
 
+Entire folders--------------------------------------
+Set which URL I want to sent
+
 git remote set-url origin https://github.com/kaungoo01/playwright-cucumber-e2e.git
+
 git remote -v
 origin  https://github.com/kaungoo01/playwright-cucumber-e2e.git (fetch)
 origin  https://github.com/kaungoo01/playwright-cucumber-e2e.git (push)
+
 git push -u origin main
+
+---------------------------------------------
+For over write file changes
+
+git status > look at all the files
+
+git add "all the files" and path
+
+git commit -m "Update notes with new Playwright learnings"
+
+git push
+
+---------------------------------------------
+
+After the multiple changes
+
+git status
+
+        modified:   features/Ecommerce.feature
+        modified:   features/support/hooks.js
+        modified:   notes/note_Office.txt
+
+git add features/Ecommerce.feature features/support/hooks.js notes/note_Office.txt
+
+git commit -m "multiple change"
+
+git push
+
+
 

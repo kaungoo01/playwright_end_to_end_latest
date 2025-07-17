@@ -19,5 +19,5 @@ Feature: Ecommerce validations
 	
 Examples:
     | username             | password     |
-    | kaung79@hotmail.com  | Totetote011  |
+    | kaung79@hotmail.com  | Totetote0111 |
     | hello@123.com        | Iamhello@12 |        
