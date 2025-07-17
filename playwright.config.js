@@ -29,7 +29,7 @@ module.exports = defineConfig({
   use: {
     browserName: 'chromium',
     viewport: { width: 1920, height: 1080 }, //Browser size
-    headless: false,
+    headless: process.env.CI ? true : false, // ✅ Headless in CI, headed locally
     
     //slowMo: 500, // slows down each action by 500ms
     screenshot: 'on',
