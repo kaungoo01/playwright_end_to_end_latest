@@ -1726,3 +1726,13 @@ Quick start: Run Playwright tests at scale - Azure >
 
 
 
+#####GIt command############
+
+git commit -m "Initial commit of Playwright test project with Cucumber setup"
+
+git remote set-url origin https://github.com/kaungoo01/playwright-cucumber-e2e.git
+git remote -v
+origin  https://github.com/kaungoo01/playwright-cucumber-e2e.git (fetch)
+origin  https://github.com/kaungoo01/playwright-cucumber-e2e.git (push)
+git push -u origin main
+
