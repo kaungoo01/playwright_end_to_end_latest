@@ -27,22 +27,34 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      # ✅ Zip the report folder only if it exists and show contents for debugging
+      # Debug: List root directory files after test run
+      - name: List root directory files after tests
+        run: ls -la
+
+      # Debug: List contents of playwright-report if it exists
+      - name: List playwright-report folder contents if it exists
+        run: |
+          if [ -d "playwright-report" ]; then
+            echo "playwright-report folder exists, contents:"
+            ls -la playwright-report
+          else
+            echo "playwright-report folder does not exist."
+          fi
+
+      # Zip the report folder only if it exists
       - name: Zip Playwright HTML report if it exists
         if: always()
         run: |
           if [ -d "playwright-report" ]; then
-            echo "playwright-report folder found. Listing contents:"
-            ls -la playwright-report
             echo "Zipping report..."
             zip -r playwright-report.zip playwright-report
             echo "Zipped file info:"
             ls -la playwright-report.zip
           else
-            echo "No playwright-report folder found."
+            echo "No playwright-report folder found to zip."
           fi
 
-      # ✅ Upload the zipped artifact only if it was created
+      # Upload zipped artifact only if created
       - name: Upload Playwright report artifact
         if: always()
         uses: actions/upload-artifact@v4
