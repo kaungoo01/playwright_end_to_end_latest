@@ -34,7 +34,7 @@ test('@API Screenshot & Visual comparision', async ({ page }) => {
     await expect(page.locator("#displayed-text")).toBeHidden();
 });
 //screenshot -store -> screenshot -> 
-test('@regression visual', async ({ page }) => {
+test(async ({ page }) => {
     //make payment -when you 0 balance
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     expect(await page.screenshot()).toMatchSnapshot('landing-win32.png');
