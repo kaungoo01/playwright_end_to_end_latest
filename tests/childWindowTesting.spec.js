@@ -43,7 +43,7 @@ test('Test Two Page Fixture', async ({ browser }) => {
     page.locator("#username").fill(domain);
 
     //pause the site
-    await page.pause();
+    //await page.pause();
 
 });
 

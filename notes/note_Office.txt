@@ -1724,18 +1724,26 @@ Quick start: Run Playwright tests at scale - Azure >
 #2. Playwright project from my machine to Cloud.
 
 
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #####GIt command############
 
-git commit -m "Initial commit of Playwright test project with Cucumber setup"
+
+My Github account kaungoo01/BenjaminandJustin01
+
+Go to Git site > login > create a repository "playwright-cucumber-e2e"
+
 
 Entire folders--------------------------------------
+
+VScode > powershell >
+
 Set which URL I want to sent
 
 git remote set-url origin https://github.com/kaungoo01/playwright-cucumber-e2e.git
 
 git remote -v
+
 origin  https://github.com/kaungoo01/playwright-cucumber-e2e.git (fetch)
 origin  https://github.com/kaungoo01/playwright-cucumber-e2e.git (push)
 
@@ -1746,7 +1754,7 @@ For over write file changes
 
 git status > look at all the files
 
-git add "all the files" and path
+git add "all the files" and path , example . for all, or features/support/hooks.js , for specific file.
 
 git commit -m "Update notes with new Playwright learnings"
 
@@ -1754,6 +1762,8 @@ git push
 
 ---------------------------------------------
 
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 After the multiple changes
 
 git status
@@ -1767,6 +1777,110 @@ git add features/Ecommerce.feature features/support/hooks.js notes/note_Office.t
 git commit -m "multiple change"
 
 git push
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#1. Azure free Account
+#2. Playwright project from my machine to Cloud.
+
+continue--
+
+Refrences: https://learn.microsoft.com/en-us/azure/playwright-testing/quickstart-run-end-to-end-tests?tabs=playwrightcli&pivots=playwright-test-runner
+
+
+playwright portal https://azure.microsoft.com/en-us/products/playwright-testing > signin with your account > able to see the name of the resource, from the 1st time created a workspace from Azure
+
+go there!
+
+VScode >
+
+npm init @azure/microsoft-playwright-testing
+
+this will download > this package > check in package.json
+
+
+!!!!!!!!!!!!!!!!!!!
+
+go to playwright.config.js > The ROOT, THE heart of the framwork > since we want to run playwright NOT from local , but from cloud we need to point from playwright.config.js > to > playwright.service.config,js > 
+
+
+!!!!!!!!!!!!!!!!!!!
+
+
+now we login to Azure from cmd 
+
+to do that we need a corss-platform CML tool so that my local can connect to Azure cloud.
+
+Google it > Azure CLI > download (MSI) > 
+
+login to Azure from cmd >
+
+CMD > az login > use my msn login info > once success > connection good between local ws and cloud.
+
+#3. region endpoint 
+
+export PLAYWRIGHT_SERVICE_URL= wss://.......api
+
+add this in CMD
+
+#4. npx playwright test , to run.
+
+
+!!! But we dont want to use this playwright.service.config.ts , not the playwright.conf.js!!!!!
+
+Thats why run > npx playwright test --config=playwright.service.config.js --workers=20 , worker if you want to run in parallel.
+
+Run it!
+
+
+when finished
+
+playwright.microsoft.com/workspaces > click > pass/failed.
+
+what we did, 
+
+create cloud Azure account
+create a workspace
+local: Install package > @azure/microsoft-playwright-testing
+local: Install CLI > to connect to azure
+local: Login to azure
+azure: provide > end point
+azure: run it , parallel.
+go to playwright portal > resource > check the test results.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
