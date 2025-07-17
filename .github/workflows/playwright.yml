@@ -24,8 +24,16 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      # Debug: List of tests  
+
+      - name: Run Regression Tests
+        run: npm run regression
+
+      - name: Run Web Tests
+        run: npm run webTests
+        
+      - name: Run API Tests
+        run: npm run APITests        
 
       # Debug: List root directory files after test run
       - name: List root directory files after tests
