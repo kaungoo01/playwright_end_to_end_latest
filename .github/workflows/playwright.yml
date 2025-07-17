@@ -26,8 +26,8 @@ jobs:
 
       # Debug: List of tests  
 
-      - name: Run Regression Tests
-        run: npm run regression
+      - name: Run CucumberRegression
+        run: npm run CucumberRegression
 
       - name: Run Web Tests
         run: npm run webTests
