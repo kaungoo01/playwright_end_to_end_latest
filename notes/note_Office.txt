@@ -1,0 +1,1728 @@
+5/30
+#1.
+
+Playwright, why is better?
+1. "Auto-wait" capability https://playwright.dev/docs/actionability, it wait until the element is visiable, stable, interactable! 
+
+2. Cross-browser
+
+3. Mutiplatform
+
+4. Code in any languages.
+
+-----------------------------
+
+Advance Features-
+
+1. Tracing and debugging > video records (trace each frame by frame) + screenshots 
+
+2. Interception > network calls | modify the UI
+
+3. Browser Context > loggin info to save and transfer across your test suite
+
+4. Codegen Tool > Recording actions.
+
+------------------------------
+Course structure--
+
+1. Will use Javascript/TypeScript Focus
+
+2. Cover web and api testing.
+
+------------------------------
+
+Installing NPM + NODE + Playwright Dependencies
+
+
+Upgrading npm
+CMD > as Admin > npm install -g npm-windows-upgrade > 10.7
+
+Upgrading node
+https://nodejs.org/en/download/prebuilt-installer/current > just downloaded and launched the msi > v22
+
+Create a folder > C:\Users\koo\OneDrive - BGC Partners, O365 Tenant\Documents\Playwright
+
+Install playwright dependencies > Opend in Vs code > terminal > npm init playwright
+
+If got an error
+
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException   
+    + FullyQualifiedErrorId : UnauthorizedAccess
+	
+	
+go to powershell >
+Set-ExecutionPolicy RemoteSigned  > Y
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser	 > Y
+
+again: Install playwright dependencies > Opend in Vs code > terminal > npm init playwright
+Yes
+javascript
+Yes to all
+
+folder | structure created > playwright.config.js > all the configuration > main thing > Like a test Runner*********
+folder | structure created > test folders > main thing
+
+---------------------------------
+
+------Test Annotation and Async Await---
+
+to execute the test
+>>>>> npx playwright test >  playwright module > test > testDir > ./tests
+
+------Browser Context and Page Fixture---
+
+//test('Test One browser Fixture', async ({ browser })
+//test('Test Two Page Fixture', async ({ page })
+
+------Playwright conf file | test runner---
+
+#1. Browser
+use: {
+
+    browserName : 'chromium' }
+
+
+#2. Timeout
+timeout: 30 * 1000,
+  expect: {
+    timeout: 5000,
+  }
+
+#3. Run test
+
+{
+  testDir: './tests',
+
+module.exports = defineConfig({
+  testDir: './tests'
+  
+#4 to execute the test
+>>>>> npx playwright test >  playwright module > test > testDir > ./tests
+
+example--
+npx playwright test UIBasicstest.spec.js --debug
+
+
+Run the multi-browser---
+
+Browser
+use: {
+
+    browserName : 'chromium' } or 'firefox' etc.
+
+To test only one
+
+uiTesting.spec.js > add .only
+
+test.only('Test Two Page Fixture', async ({ page }) => {
+
+    await page.goto("https://google.com//");
+
+});
+
+#6. To run headless all the time
+config > use: > headless : true or false
+
+-----PlayWright Basic methods -------
+
+---Locator and how to type(sent) into elements---
+
+******************************
+
+If "Id" is present
+css -> tagename#id (or) #id
+
+If "class attribute" is present
+css -> tagname.class (or) .class
+
+Write css bases on any Attribute
+css -> [attribute='value']
+
+Write css with traversing from Parent to child
+css -> parent-tag-name child-tag-name
+
+If need to write the locator bases on text, whatever
+text='whatever'
+
+If need to write tag name have whatever, it's called sudo class
+"h3:has-text('whatever')"
+
+******************************
+
+
+--Drop down---
+
+select dropdown > tag as select > option value > 
+
+const dropDown = page.locator("select.form-control");  "tag.class"
+await dropDown.selectOption("Consultant"); selectOtion method  > pick "Consultant"
+
+//pause the site   !!!!!!!!!!!!!!!!!
+await page.pause();
+
+--Radio Button | Check boxes--
+
+const radioButton = page.locator(".radiotextsty");
+await radioButton.last().click();
+
+const okButton = page.locator("#okayBtn");
+await okButton.click();
+
+//checkBox
+
+const termsCheckBox = page.locator("#terms");
+await termsCheckBox.click();
+
+//assertion Check Box
+await expect(termsCheckBox).toBeChecked();
+
+//Make it Unckeck again
+await termsCheckBox.uncheck();
+
+//assertion Check Box, Not Checked
+expect(await(termsCheckBox).isChecked()).toBeFalsy();
+
+
+--Async await with Assertion | validate attributes--
+
+
+
+--Child window | tabs | switching browsers--
+
+//Create a newPage and clicking for new page need to happen in parallel
+    //User Promise.all
+    //Add both as an array
+    const [newPage] = await Promise.all( //can be add another like [newPage,newPage2, newPage3 ]
+        [
+            context.waitForEvent('page'), //listen for any new page pending, rejected, fulfilled
+            blinkingURL.click(), //Open a new tab
+        ])
+
+    //Place the domain obj Back to the old 'page' and pastse in Username
+    //back to page
+    page.locator("#username").fill(domain);
+
+
+--Inspector | Trace Viewers | COdegen Tool--
+
+Inpector --
+WHen test failed, when the test , run as debug mode
+npx playwright test <name of file.js> --debug 
+
+
+example--
+npx playwright test clientSite.spec.js --debug
+
+Playwright Inspector will launch!
+
+it will show each and every steps
+
+Log are called 'Trace Viewers'
+
+!!!!!!!Click Explore icon on the top!!!! > and click on the element to generate the CSS selector!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!--Codegen Tool--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Record and playback -- no recommended. 
+npx playwright codegen <URL>
+
+eg.
+npx playwright codegen http://www.google.com
+
+Inspector proumpt will pop up and do the action , it will record it.
+At the end of it, copy it and pastsed in the .js code!
+
+
+
+----Test Traces, HTML reports, logs and Screenshots----
+
+
+screenshots > config file > reporter: html > use > screenshot: 'on'
+collect the trace > config file > reporter: html > use > trace: 'on'
+
+Run the test..
+
+Playwright folder > test-results and playwright-report > in this page> you'll be both screenshot and trace (download or click)
+
+Another way > test-results > test file > trace.zip > download > trace.playwright.dev > upload it.
+
+!!!!!!!!If I want trace file only on failed test file!!!!!!!!
+
+collect the trace > config file > reporter: html > use > trace: 'retain-on-failure'
+
+
+#######End 2 End#############
+
+await page.goto("https://rahulshettyacademy.com/client");
+
+locator + fill 
+
+locator + click
+
+####Wait until network is Idel, not busy#####
+await page.waitForLoadState('networkidle');
+
+products.nth(i).locator("b").textContent() === productName
+
+await page.pause(); //Pause the browser
+
+await page.locator("div li").first().waitFor(); //IMPORTANT wait for the first element to be load
+
+const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible(); //visiable is not auto-wait //IMPORTANT search via tag has text
+expect(bool).toBeTruthy();
+
+#####Handle Auto-Suggestive dropdown################
+
+
+
+#####Strategy to handle Calendars####################
+
+day, month, year in vriables
+add together into array
+
+add variables
+
+    //replace year text with the year parameter
+    await page.getByText(year).click();
+
+    //Month
+    //Map month 6 to June
+    await page.locator('.react-calendar__year-view__months__month').nth(Number(monthNumber)-1).click();
+
+    //day
+    await page.locator('.react-calendar').getByText(date).click();
+	
+//Assertion on YYYY MM DD
+    //Compare with Variable
+    const inputs = await page.locator('.react-date-picker__inputGroup input'); //Get the result location contains the results '06/15/2027'
+
+    for (let index = 0; index < inputs.length; index++)      //go one by one
+    {
+        const value = inputs[index].getAttribute("value");  //store 06 into value
+        console.log(value);
+        expect(value).toEqual(expectedList[index]);         //06=value=expectedList['06'] , true?
+    }	
+
+
+#####Strategy to handle Hidden####################
+
+Method called .toBeVisible(); and .toBeHidden();
+
+
+
+#####Strategy to handle Java/Dialog####################
+
+page.on('dialog',dialog => dialog.accept()); <-----------------------------------------
+    //click
+    const popUpButton = page.locator('#confirmbtn');
+    await popUpButton.click();
+	
+#####Strategy to handle Hover####################	
+
+//Hover
+    const mouseHoveButton = page.locator('#mousehover');
+    await mouseHoveButton.hover(); <------------------------------------------------------
+
+    //check Hover Content
+    const hoverContent = page.locator('.mouse-hover-content');
+    await hoverContent.isVisible();
+    
+    //click Top
+    await hoverContent.getByText('Top').click();
+    console.log('Click Success!');
+	
+#####Strategy to handle Frames####################		
+    const iFrame = page.frameLocator("#courses-iframe"); <--------------------------------------- FrameLocator
+    await iFrame.locator("li a[href*='lifetime-access']:visible").click(); //ONLY CLICK at what we can see.
+	
+	
+#####Strategy to handle AIP###################		
+
+What is API? go between DB and Front
+
+Dev Tools > Network > Fetch/XHR >
+login > header > URL (End Point)> Payload > Email ID + Password
+Response > Token + Message reply
+
+Token--
+browser > Inspection > Application > local storage > Token (key + value) has been kept to know we have a session cookie in place.
+
+Why we want to kept login all the time for all 50 testcases? Keep it only one and use TOken and login right away and do the other test.
+
+Call the login API (Inject the token) and we are in!
+
+#####Request a method to make API calls | to skip the login page ######
+CHrome > Network > do the login > click the filter > Fetch/XHR
+Get the response  > login
+extract the token 
+In the test instead of do the login, we will call a function to add the token(name) and argument(actual token string) , which will login automatically
+
+    page.addInitScript(value =>{
+
+        window.localStorage.setItem('token',value); //Function  
+    },token);
+
+
+####Place order using API########
+
+Similar to above, can we achieve an order , by calling API, without providing automatic steps?
+
+***Test by opening , network, and see the response, before and after the click "Order"*** >>check the Payload (for our input)
+Consider which user is making this Order?
+Headers > Request Headers > Authrization:token value <---------------
+
+
+What we need
+#1. To use on apiContex.Post
+
+URL:https://rahulshettyacademy.com/api/ecom/order/create-order
+
+data: orderPayLoad
+headers:
+'Authrization': token
+'Content-Type': 'application/json'
+
+#2. added as data > orderPayLoad 
+PayLoad >
+
+{orders: [{country: "India", productOrderedId: "6581ca399fd99c85e8ee7f45"}]}
+
+#3. THis need to add in the header on post (important)
+
+Headers > Request Headers > Auth >
+Authorization:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjVmNjRlZWFlMmFmZDRjMGJmMTI2NDMiLCJ1c2VyRW1haWwiOiJrYXVuZzc5QGhvdG1haWwuY29tIiwidXNlck1vYmlsZSI6MTIzNDU2Nzg5MCwidXNlclJvbGUiOiJjdXN0b21lciIsImlhdCI6MTcyODQ4MTY3NCwiZXhwIjoxNzYwMDM5Mjc0fQ.1sUV2EUX9AIjum6ZXgF2aB-j-hRwKzcszDxmTm4Vt2Q
+
+
+---Check the Response----"This is the Response, we want!"
+
+Go to Fetch/XHR > Response >
+
+{
+    "orders": [
+        "670689b2ae2afd4c0b954e1f"
+    ],
+    "productOrderId": [
+        "6581ca399fd99c85e8ee7f45"
+    ],
+    "message": "Order Placed Successfully"
+}
+
+
+
+
+code--
+
+const orderResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order",
+    {data:orderPayload,
+        Headers:{
+            'Authrization': token,
+            'Content-Type': 'application/json'
+        },
+    })
+
+    const orderResponseJson = await orderResponse.json();
+    console.log(orderResponseJson);
+    orderId = orderResponseJson.orders[0];
+	
+####Refactor, to create Utiliy file for this login and order steps####
+
+
+create 'utils' folder inside tests folder	
+
+
+####Save session Stroage and Inject into Browser context
+
+In the previous case, we only need token + value
+
+But some cases has more...
+
+//login once in UI
+//collect all the information in json file
+//Inject all the info with this json file
+//###newContext(json)### > create this instance
+
+
+enter a these in beforeAll
+
+test.beforeAll(async({browser})=>
+{   
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/client");
+    await page.locator("#userEmail").fill("kaung79@hotmail.com");
+    await page.locator("#userPassword").fill("Totetote01");
+    await page.locator("#login").click();
+    await page.waitForLoadState('networkidle');
+    await context.storageState({path: 'state.json'}); //Save it
+})
+
+run it > might not work yet > but state.json have been created.
+
+#########Debug API testing with Visual code debug#################
+
+npx playwright test tests/nameofthetest.spec.js --headed --debug
+
+Note: only debug the UI related steps, NOT API related
+
+--How to do includ API?
+
+#1. go to package.json > scripts > provide the test file you want to debug, example--
+
+"scripts": {
+    "test": "npx playwright test tests/WebAPIPart3_loginOrderRefactor.spec.js --headed"
+  },
+  
+then Hit > Shift + Ctril + P > Debug npm Script >> this is debug the test file WebAPIPart3_loginOrderRefactor.spec.js, as a debug mode
+
+place a debug point 
+
+click on the left side of "const apiUtils = new APIUtils(apiContext,loginPayLoad);" from the test file, to add a debug point, you can go one by one, see the token, etc.
+
+#2. increase : timeout to 1000*1000 from playwright conf file
+
+###################Detail view of Trace viewer for API logging request/response#######################################
+
+
+#1. playwright conf file > use > trace: 'on'
+Note: Remove the scripts + test file from package.json
+Normalize the timeout
+Remove the Debug point
+
+#2. Run as a Normal test > npx playwright test WebAPIPart3_loginOrderRefactor.spec.js --headed
+Go to test-result folder > trace.zip is be created.
+
+Or go to the test result page check the step by step trace results.
+
+################## Intercept Network response with Playwright route Method##############################
+
+Request >>>  login page > https://rahulshettyacademy.com/client > Open inspection > Network > Fetch > click the login button
+Response <<<< json , copy the Json and see in Json Editor
+
+We will be seeing the response Json objects, with Pic + Product descriptions.
+
+
+If we want to Stop or Intercept as there is no Products / we are going to fake it / Alter the response , pretending there wasn't any? Yes!
+
+Can playwright inject the fake reposnse ONLY for that automation section? Yes!
+
+
+Perform Visual Testing
+
+
+Full Screenshot 
+await.page.ScreenShot({path:'successful.png'});
+Partial Screenshot
+await page.locator('displayed-text').screenshot({path:'partialScreenshot.png'});
+
+
+
+
+
+Visual Testing
+
+test('visual',async({page})=>
+    {
+        await page.goto("https://rahulshettyacademy.com/loginpagePractise/"); // go to this site
+        expect(await page.screenshot()).toMatchSnapshot('landing.png'); // taker a ss, and compare|match with landing pic, if there's no ss yet, it will crerate one.
+    
+    })
+
+
+Build Excel Utils and using uploads|downloads using Playwright
+
+Page to Test
+https://rahulshettyacademy.com/upload-download-test/index.html
+
+ Edit, Write excel files using Js
+
+we need Node Model called ExcelJs 
+https://www.npmjs.com/package/exceljs
+
+Read, manipulate and write spreadsheet data and styles to XLSX and JSON.
+
+#1. We need a dir for this project--
+
+mkdir ExcelJSUtil
+
+#2. Intialize Npm dependencies , to create a package.json file
+
+npm init
+
+#3. Follow along the package details, hit 'enter'
+
+Done.
+
+#4. Open this dir from VSCode D:\ExcelJSUtil
+
+Done.
+
+#5. Open terminal
+
+Done.
+
+#6, Install ExcelJs package
+terminal > npm install exceljs --savedev , savedev for entry.
+
+added 97 packages, and audited 98 packages in 5s
+
+noticed node_models got created.
+
+in the package.json
+
+"dependencies": {
+    "exceljs": "^4.4.0"
+  }
+  
+#7. To start working
+make a new file called, excelDemo.js under ExcelJSUtil dir.
+
+
+#8. To work with excel file,
+go to : https://rahulshettyacademy.com/upload-download-test/index.html
+download a file, to download folder...
+name it to : exceldownloadTest.xlsx
+
+
+--------------
+
+Strategy to handle download & uploading files using Playwright
+
+
+copy the code to the main playwright dir
+
+we will need to reinstall the exceljs module
+
+install by , npm install exceljs --savedev
+
+relaunch the vscode
+
+steps to achieve..
+
+----------
+URL https://rahulshettyacademy.com/upload-download-test/index.html
+
+click download > C:\Users\koo\Downloads\download.xlsx
+
+modifle the excel
+
+upload the file
+
+Validate
+-----------
+
+
+
+test('Upload download excel validation',async ({page})=>
+{   
+    //text to Search, and value to change
+    const textSearch = 'Apple';
+    const updateValue = 600;
+    //go to page
+    await page.goto("https://rahulshettyacademy.com/upload-download-test/index.html");
+    
+    //waitForEvent*** Wait Until download is finished
+    const downloadPromise = page.waitForEvent('download');
+    //click at download, using getByRole
+    await page.locator('#downloadButton').click();
+    
+    // Wait and save the download
+    const download = await downloadPromise;
+    //---
+    const downloadPath = '/Users/koo/Downloads/download.xlsx';
+    await download.saveAs(downloadPath);
+    console.log('Download saved to:', downloadPath);
+    //--
+    //Updating an excel, Call the function
+    await writeExcelTest(textSearch, updateValue, { rowChange: 0, colChange: 2 }, downloadPath); //download location
+    
+    //In Build Method, setInput, ONLY for type component is "file"
+    await page.locator("#fileinput").setInputFiles(downloadPath);
+
+    //Assertion
+    const textLocator = page.getByText(textSearch)
+    //IMPORTANT: search ONLY for this row of this element
+    const desiredRow = await page.getByRole('row').filter({has : textLocator});
+    //expect desireRow as it
+    await expect(desiredRow.locator("#cell-4-undefined")).toContainText(updateValue.toString());
+
+});
+
+
+Run > 
+npx playwright test --ui
+
+playwright UI will appeared
+pick the > upload-download-excel.spec.js > hit the run
+
+npx playwright test tests/upload-download-excel.spec.js --debug
+npx playwright test tests/name of test.spec.js --debug
+npx playwright codegen https://rahulshettyacademy.com/client  ###############################USE THIS TO GET THE LOCATOR!!!!#####################################
+
+
+#14: Page Object & Data driven Parameterization
+
+test should have only a logic and login should be wrapped around the methods  
+
+for every page, will create a js file , with the locators belong to this page will be there!
+example : Login page file , all the username, email, pw etc locator will be there!
+		  Dashboar page file, all the dash borard page related locators will be there	
+
+
+new dir "pageObject" > loginPage.js > create a class > create a constructor() > this.signInbutton = add the locator!
+
+
+
+npx playwright test end2endTestRefPO.spec.js
+
+-----------------
+
+################## More Page and Object ##################
+So I will have a Main Test JS called, end2endTestRefPO.spec.js
+
+2 Objects > lowercase
+loginPage , call the Methods
+dashboardPage , call the Methods
+
+2 Pages > capcase (called By Main JS)
+LoginPage (locators + Methods)
+DashboardPage (locators + Methods)
+
+----We can have only one main file (that has both Objects) cand call from there! ----- POManager.js
+
+
+pageObject > POManager
+
+Consolidate and keep the copy of , all objects!
+
+🧠 Concept: What is page?
+In Playwright, page is like the browser tab. You use it to interact with the webpage — click, type, select, etc.
+
+You get this page automatically in your test file:
+
+js
+Copy
+Edit
+test('test name', async ({ page }) => { ... })
+
+
+🤔 Your Problem
+You're trying to pass page from the test into your helper class (POManager), but your POManager didn’t accept or store it correctly. So all the child page objects (LoginPage, DashboardPage) received undefined instead of page.
+
+✅ Fix (Simple)
+In POManager.js, this was wrong:
+
+js
+Copy
+Edit
+constructor() {
+   this.page = this.page; // ❌ this.page is undefined
+}
+You need to receive page as an argument:
+
+js
+Copy
+Edit
+constructor(page) {
+   this.page = page; // ✅ store the incoming page
+   this.loginPage = new LoginPage(this.page);
+   this.dashboardPage = new DashboardPage(this.page);
+}
+
+--------Visual-------------------
+
+
+
+[Playwright Test File]
+      |
+      v
+const poManager = new POManager(page);
+                       |
+                       v
+               [POManager Constructor]
+                       |
+        ----------------------------------------
+        |           |           |             |
+        v           v           v             v
+  LoginPage    DashboardPage   MyCartPage   PaymentPage
+    |               |             |             |
+    v               v             v             v
+  Use .locator(),  .click(), etc. on same `page` object
+-------------------------------------------------------
+Main: 
+
+	end2endTestRefPO_POM.spec.js
+			|
+			|
+		pageObject/POManager
+			|
+			|
+LoginPage | DashboardPage | MyCartPage | OrderReviewPage | OrderHistoryPage
+
+  Use .locator(),  .click(), etc. on same `page` object			
+
+------------------------------------------------------
+##############Drive data from external json files to playwright#############
+
+copy end2endTestRefPO_POM.spec.js > end2endTestRefPO_POM_DATA.spec.js
+
+tests > Utils > placeorderTestData.json
+
+we will add, the followings from end2endTestRefPO_POM_DATA.spec.js
+
+{
+    "userName": "kaung79@hotmail.com",
+    "passWord": "Totetote01",
+    "productName": "ZARA COAT 3"
+}
+
+call that file >
+#1. IMPORT 
+const dataset = JSON.parse(JSON.stringify(require("./utils/placeorderTestData.json"))); //Imported by converted to Js obj
+
+#2. use this dataset
+eg:
+await loginPage.validLogin(dataset.userName, dataset.passWord);
+
+####Parameterization in running tests with data sets
+
+Repeat the same test run with different dataset.
+
+make a data Json file as Array!
+
+[
+    {
+        "userName": "kaung79@hotmail.com",
+        "passWord": "Totetote01",
+        "productName": "ZARA COAT 3"
+    },
+    {
+        "userName": "kaungoo@yahoo.com",
+        "passWord": "Chawchaw01",
+        "productName": "Adidas Orignals"
+    }
+]
+
+test to run 2 times!
+
+IMPORTANT: use forloop to warp around the dataset as data
+change inputs as "data."
+To make it readable add dynamic $(data.productName} output on test
+remove @
+makesure to use backticks ` instead of quotes ' ' so that ${...} gets evaluated properly.
+
+for (const data of dataset)
+{
+test(`Client App login for ${data.productName}`, async ({ page }) => {
+
+
+####TO read the Report####
+
+go to playwright-report > index.html > copy > Pasted in.
+
+
+##########Pass the test data from the Fixture###################
+
+we are only use 'test' object module which we imported from playwright/test
+but we can extend our test behavior.
+To pass the custom test Js Object
+
+Utils > test-base.js
+
+
+depending on the test cases people will create a custom fixture test properties
+
+example:
+
+ {
+       //we give page as Fixtures, we gave browser as Fixtures
+       //we can give custom Fixtures as well
+       testDataForOrder :{
+        userName: "kaung79@hotmail.com",
+        passWord: "Totetote01",
+        productName: "ZARA COAT 3" }
+    }
+
+So we have 3 ways 
+
+#1. json
+#2. json Array to parameter
+#3. Fixture , customize by using extend the object with propertyies
+
+
+###############Project Config & Robust Framework#################
+
+"Copy Prompt"
+
+npx playwright test UIBasicstest.spec.js --debug
+
+
+CHeck with Dev Lead or Dev Ops what kind of LLM that we are able to use.
+
+
+Lets say I have custom cofng called Config > playwright.config1.js "as Config 1"
+
+use: {
+    browserName: 'chromium', > 'webkit' this safari
+    headless: false,		> true
+    //slowMo: 500, 
+    screenshot:'on',
+    trace: 'on',
+
+We can use this config1 >
+######npx playwright test tests/ClientsAppPO.spec.js --config playwright.config1.js#####################
+
+
+If we want to run one custom for one browser, we can add project property under the reporter.
+
+Like this
+
+reporter: 'html',
+  //custom Project
+projects: [
+    {
+      name: 'Safari',
+      use: {
+        browserName: 'webkit', //Safari
+        headless: true,
+        screenshot: 'on',
+        trace: 'on',
+      }
+    },
+    {
+      name: 'Chromium',
+      use: {
+        browserName: 'chromium', //Safari
+        headless: true,
+        screenshot: 'on',
+        trace: 'on',
+      },
+    }
+  ]
+
+***To Run***
+######npx playwright test tests/uiTesting.spec.js --config playwright.config1.js --project=FireFox####################
+
+
+Emulating browser to Mobile Devices
+
+viewport:{width:720,height:720} //Dimension size.
+
+Example:
+
+{
+      name: 'FireFox',
+      use: {
+        browserName: 'firefox', //Safari
+        headless: false,
+        screenshot: 'on',
+        trace: 'on',
+        //viewport:{width:720,height:720}, --Dimension
+        //...devices["iPhone 14 Pro Max landscape"], --Iphone screensize
+        //ignoreHTTPSErrors: true, --Able to handle site is Non https certificate.
+		//permissions:[''geolocation] --Allow the popup asking for location
+      }
+
+
+############Screenshots, Videos, Traces and SSL certificate options on config file
+
+Taking screenshot like this
+
+
+conf file >
+{
+      name: 'FireFox',
+      use: {
+        browserName: 'firefox', //Safari
+        headless: false,
+        screenshot: 'on',<-------'off' , 'only-on-failure'
+		video:'on-first-retry' <-----or 'retain-on-failure' <only on failing>
+		trace: <same> <-------- <as a zip file> from test-results folder.
+		
+		
+############Test retries, Serial & Parallel exe & Tagging Tests
+
+conf file >
+
+flaky tests, retry > ADD "retries"
+
+module.exports = defineConfig({
+  testDir: './tests',
+  retries: 2, <---------------------------------------retry 2 times!
+  timeout: 300 * 1000, // Total 30 secs
+  expect: {
+    timeout: 5000, //5 secs
+  }
+
+####IMPORTANT########
+
+Serial mode > By Default, it is ran by serial mode.one by one, in the Test file! like in "end2endTestRefPO_POM_DATA_Fixture.spec.js" we have 3 test cases.
+
+
+Parallely > In the same 'test' all the 'files' folder. Each (up to 5 by Default) worker will handle each test files.
+
+To Control it > config file > ADD 'workers:' as 1,2,3 , if 1 worker it will run one by one to each test files.
+
+
+Run Parallely in the same file > Same file > on the test file > 
+
+//test.describe.configure({mode:'serial'}); // One by one!
+//test.describe.configure({mode:'parallel'}); //THey'll run in the same time!
+
+Example:
+npx playwright test tests/MoreValidations.spec.js --config playwright.config1.js --project=FireFox
+
+//test.describe.configure({mode:'serial'}) //Make sure everything are PASSED! If not passed, skipped all other incoming tests.
+
+Race condition , to fix >
+
+when repeat test steps race at the same time, it could failed the test.
+Add 'skip' after test, example > test.skip
+
+
+Tag tests from command line > '@Web' --Note could be any name!
+
+	test("@Web Popup validations",async({page})=>
+{
+    await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+
+    // await page.goto("http://google.com");
+    // await page.goBack();
+    // await page.goForward();
+    await expect(page.locator("#displayed-text")).toBeVisible();
+
+})	
+
+
+To Run it only @Web
+########npx playwright test --grep=@Web 
+example
+npx playwright test --grep=@Web                
+
+#############HTML report#############
+
+Copy index from report
+
+Allure , is the 3rd party tool
+
+TO install--
+npm install -D allure-playwright
+
+Run again
+npx playwright test tests/MoreValidations.spec.js --reporter="line,allure-playwright"
+
+then
+allure generate ./allure-results --clean >> if got an error, that means allure may not installed globally
+
+steps:
+
+npm install -g allure-commandline --save-dev > then check the version > allure --version
+
+then, rerun again
+
+allure generate ./allure-results --clean
+if success, do this >
+
+allure open
+or
+allure open .\allure-report\
+
+
+#############Custom scripts to trigger from package#############
+
+In the package.js file > 
+
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": { <--------------------------------------------------------------------------####CUSTOM RUNS#####
+  "regression":"npx playwright test", //trigger all the test
+  "webTests": "npx playwright test --grep=@Web",//Run ONLY web tag
+  "APITests":"npx playwright test --grep=@API",	//Run ONLY API tag
+  "FireFoxConfig":"npx playwright test tests/MoreValidations.spec.js --config playwright.config1.js --project=FireFox", //Both Config and Project Name 
+  "MoreValidationsAllure":"npx playwright test --grep=@Web --reporter=line,allure-playwright"
+    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.12.13",
+    "allure-playwright": "^3.3.0"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  }
+}
+
+-To Run--
+
+npm run webTests
+
+npm run  MoreValidationsAllure
+
+###############Install Jenkins###########################
+
+https://www.jenkins.io/download/
+Go for Geernic Java package (.war) >  Download at Download folder
+From cmd line > Go to Download dir
+java -jar jenkins.war --httpPort=9090 <-----------------------------------------------Start Up the Jenkins Server!
+
+Run this since I have Java24, and Jenkins only support Java 17 or 21.
+java -jar jenkins.war --httpPort=9090 --enable-future-java
+
+Access: http://localhost:9090
+
+
+Please use the following password to proceed to installation:
+0237290223774ababf77c558b49aada5
+
+Open: http://localhost:9090 <---------------------------------------------
+
+Enter the admin password shown: 0237290223774ababf77c558b49aada5(old) <-------- a6ff05aecdd949419ef5e9cb81c6838a (new!)
+
+Choose "Install suggested plugins"
+
+Create your first admin user
+
+Jenkins is ready to use. 
+
+But the instance id offline.
+
+Download java 21
+
+Download at 
+
+C:\Program Files\Java\jdk-21\bin
+
+Powershell<--------------------------------------------------------------------!!!!RUN THIS BUT THIS TEMP!!!!!
+
+$env:JAVA_HOME="C:\Program Files\Java\jdk-21"
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+
+
+Then check powershell
+
+java -version
+
+PS C:\Users\koo> java -version
+java version "21.0.7" 2025-04-15 LTS
+Java(TM) SE Runtime Environment (build 21.0.7+8-LTS-245)
+Java HotSpot(TM) 64-Bit Server VM (build 21.0.7+8-LTS-245, mixed mode, sharing)
+
+Powershell > but still seeing as offline.
+!!This is Normal!!! For corp
+
+http://localhost:9090
+User Name: koo
+PW: a6ff05aecdd949419ef5e9cb81c6838a
+
+
+Run from the DOwnload folder> 
+"C:\Program Files\Java\jdk-21\bin\java.exe" -jar jenkins.war --httpPort=9090 <----------------------------------------------------------------- RUN LIKE THIS!------
+
+!!!!!!!!!!!There's 2 Jenkins!!!!!!!!!!!!
+
+koo user and koo_d user
+cmd > normal launch > koo <------------------I will use this! use pw: 0237290223774ababf77c558b49aada5
+
+koo_d
+cmd > run as admin launch > go to cd C:\Users\koo\Downloads\ > Install plugins > doesn't work.
+
+
+
+"C:\Program Files\Java\jdk-21\bin\java.exe" -jar jenkins.war --httpPort=9090
+
+http://localhost:9090 > login > new item > Name: PlaywrightFramework + FreeStyle project > Save.
+
+Main Page > Source Code Management > can have Git URL
+Right now > General > Advance > Use custom workspace > URL : C:\Users\koo\OneDrive - BGC Partners, O365 Tenant\OneDrive - BGCG, O365 Tenant\Documents\Playwright
+Build Steps > Execute Windows batch command > Add the comment from the shell from the scripts > like : npm run webTests , Save it! 
+Build Now > Success.
+
+Since we have more tests to run so we want to run it dynamically > we can parameterized > Select: This project is parameterized > Add parameter > Choice parameter > Name : Script > Choice > scripts names such as regression, webTests, APITests, FireFoxConfig,MoreValidationsAllure 
+Remove the Execute Windows batch command from Build Steps. > Save.
+Go back to Main > you'll see Build with Parameters > Drop down.
+Go back to Conf > Build Steps > Execute Windows batch command > npm run "$Script" for shell | npm run %Script% for !WINDOW > Save.
+
+
+#####Java script vs. Type script######
+
+TS - syntax foucs on adding "type annotations" and other features that enhance code quality, readibilty and maintaininability.
+
+TS = JS + Additional features.
+
+JS run on Node.
+
+TS needs to convert to ---> JS -----> run on Node.
+
+example:
+
+demo.js -> node demo.js
+
+demo.ts -> tsc demo.ts (Compile) -> demo.js -> node demo.js
+
+Install >TS
+
+https://www.npmjs.com/package/typescript
+
+Note: Install globally : npm install -g typescript
+
+Example--
+
+let message1: string = "Hello"; //String static typing Hello in the message variable.
+
+message1 = "Bye";
+console.log(message1);
+
+let age1:number = 20;
+console.log(age1);
+
+let isActive: boolean = false;
+console.log(isActive);
+
+let number1:number[]=[1,2,3];
+console.log(number1);
+
+//you can put 'any', it will react like JS.
+let data:any = "Anything!";
+data = 123;
+console.log(data);
+
+#####To Complie#######
+
+tsc demo1.ts
+demo1.js will generated.
+node demo1.js > results > 
+
+//Functions in TS
+function add(a:number,b:number):number //returning number as well.
+{
+
+    return a + b;
+}
+console.log(add(3,4));
+
+
+//Objects
+let user:{name:string,age:number} = { name: "Bob" , age: 34}
+
+Code Quality is Better.
+
+//Classes
+
+constructor(page) {
+        //locators, !!!Question, where is these products, productTest coming from? Declare it
+
+        this.page = page;
+        this.products = page.locator(".card-body"); // all the cards
+        this.productsText = page.locator(".card-body b"); // all the cards Title Text
+        this.cart = page.locator("[routerlink*='cart']") //Add to cart button
+        this.orders = page.locator("button[routerlink*='myorders']"); //Orders 
+    } 
+
+Convert js files to TS files
+
+pageObject Files > to ts
+
+CartPage - DONE
+DashboardPage - DONE
+LoginPage - DONE
+MyCartPage - DONE
+OrderHistoryPage - DONE
+OrderReviewPage - DONE
+POManager - DONE
+
+utils Files > ts
+APIUtils.js
+test-base.js
+
+Test Files > ts
+end2endTestRefPO_POM_DATA_Fixture_TS.spec.js	
+
+Copy pageObject Files > pageObject_ts 
+
+#1. LoginPage.js > LoginPage.ts , same as CartPage, DashboardPage, MyCartPage, OrderHistoryPage, OrderReviewPage
+
+Add "export" , before class LoginPage {
+
+POManager.js > POManager.ts
+replace const { LoginPage } = require('./LoginPage');
+with import { LoginPage } from('./LoginPage');
+
+Add "excport" class POManager   
+
+//Declare Type
+ page: Page;
+//The Class Object will be in, as a Type!
+loginPage:LoginPage;
+dashboardPage:DashboardPage;
+cartPage:CartPage;
+ordersReviewPage:OrdersReviewPage;
+ordersHistoryPage:OrdersHistoryPage;
+
+utils Files >	utils_ts
+
+!!Leave a json file!!
+test-base.js > is the extend > test > base > from the Main JS , which is "end2endTestRefPO_POM_DATA_Fixture_TS.spec.ts" 
+it is using username, pw, and productName.
+
+
+
+Run it > npx playwright test tests/end2endTestRefPO_POM_DATA_Fixture_TS.spec.ts
+
+#######Cucumber Frameworks#####
+Cucumber Js
+
+It is an interface > to descripe > In Plain Eng > on a top of the Code. 
+
+
+Scenario > Name of the Test
+Given: userName and Password
+When: Login, pick product and to the cart.
+Then: Assertion, verify this and that!
+
+
+https://github.com/cucumber/cucumber-js
+
+####write your feature in features/greeting.feature:
+
+Feature: Greeting
+
+  Scenario: Say hello
+    When the greeter says hello        <--------------------
+    Then I should have heard "hello"   <--------------------
+
+
+Next, implement your steps in features/support/steps.js:
+
+
+const assert = require('assert')
+const { When, Then } = require('@cucumber/cucumber') <--------------------
+const { Greeter } = require('../../src')
+
+When('the greeter says hello', function () { <-------------------- 1st argument:the text, 2nd argument:the function(code itself)
+  this.whatIHeard = new Greeter().sayHello()
+});
+
+Then('I should have heard {string}', function (expectedResponse) { <-------------------- 1st argument:the text, 2nd argument:the function(code itself)
+  assert.equal(this.whatIHeard, expectedResponse)
+});
+
+#########Currently we are using Mocha playwright.config.js ###############
+if we bring the Cucumber which brings the same purposes, it will be having an issue.
+
+So, when we bring the Cucumber > all the config that we have in playwright.config.js , will need to be redefine!
+
+Example like >
+
+testDir: './tests',
+timeout: 300 * 1000, 
+expect: {
+timeout: 5000, //5 secs
+
+reporter: 'html',
+  use: {
+  browserName: 'chromium',
+  headless: false,
+    //slowMo: 500, 
+  screenshot: 'on',
+
+    
+  trace: 'on', /
+  
+######Cucumber Download #############  
+
+Install : https://github.com/cucumber/cucumber-js
+
+#1.Node side
+npm install @cucumber/cucumber
+
+check in package.json > 
+ "dependencies": {
+    "@cucumber/cucumber": "^12.0.0",
+
+
+#2. VsCodeside
+Cucumber plugins >	
+VsCode > file > Prefrence> settings > Window >
+
+Extension>Cucumber (Gherkin) Full Support>Install
+
+Restart VScode
+
+###One Feature > has many Scenarios
+
+###Each Scenario > will tread is as a new TestCases > When and Then..are the steps.
+
+
+#1. To create it "feature" ...> project level 'playwright' > dir 'feature' > Cucumber reconige it.
+
+Add a file with .feature , extension!
+
+copy and paste this..
+
+Feature: Greeting
+
+  Scenario: Say hello
+    When the greeter says hello
+    Then I should have heard "hello"
+
+we add the corsponding steps(outter skeleton)
+
+Feature: Ecommerce validations
+
+  Scenario: Placing the order
+    Given a login to application with "kaung79@hotmail.com" and "Totetote01"    --need to define in skeleton file --
+    When Add "zara coat 3" to Cart												--need to define in skeleton file -
+    Then Verify "zara coat 3" is displayed in the Cart 							--need to define in skeleton file -
+    When Enter valid details and Place the order								--need to define in skeleton file -
+    Then Verify order in the Order History										--need to define in skeleton file -
+	
+!!!Run this first! Tho is not ready!!!
+
+npx cucumber-js	
+why? cuz we need to involve the file!
+
+#2. Steps Definition files > with Cucumber.js config file.
+under features folder > 
+create a dir 'step_definitions' > steps.js
+
+2.1 importing packages
+
+const { When, Then } = require('@cucumber/cucumber')
+
+copy and pastse from the error message, after run nox cucumber-js
+
+const { When, Then } = require('@cucumber/cucumber')
+
+Given('a login to application with {string} and {string}', function (string, string2) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+When('Add {string} to Cart', function (string) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+Then('Verify {string} is displayed in the Cart', function (string) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+When('Enter valid details and Place the order', function () {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+2.2: we will import POManager object into the steps.js
+
+From end2endTestRefPO_POM_DATA_Fixture.spec.js > we are adding codes into the skeleton file --
+
+
+Word > As long as I'm in this Scenario > I should be able to access variables, and other steps inside this Scenario (word) >
+Right now the object page from , const page = await context.newPage();
+is ONLY accessiable in the Scenario > Given.
+We will make them as Global so that Given is access to When and Then, or vis ver sa.
+
+####to RUN: npx cucumber-js --exit
+
+NOTE!!! THis is the data provider, not from the test-base.js or placeorderTestData.json
+
+features/Ecommerce.features >
+
+  Scenario: Placing the order
+    Given a login to application with "kaung79@hotmail.com" and "Totetote01"    --need to define in skeleton file --
+    When Add "zara coat 3" to Cart												--need to define in skeleton file -
+    Then Verify "zara coat 3" is displayed in the Cart 							--need to define in skeleton file -
+    When Enter valid details and Place the order								--need to define in skeleton file -
+    Then Verify order in the Order History										--need to define in skeleton file -
+	
+the data like 	"kaung79@hotmail.com", "Totetote01" and "zara coat 3", will be provided to the steps.js
+
+
+RMQA
+testgfi
+
+RMQA1
+testgfi
+
+kmoo
+testgfi
+
+CODEGEN > to create a full page browser
+create a code-fullscreen.js > conf it
+
+RUN it : node codegen-fullscreen.js URL
+example: node codegen-fullscreen.js http://tbfenicsmd-vq2:23080/report-manager/login
+
+*****Cucumber Hooks*********
+
+IT's a data set up before and after the test.
+
+Setting a Hooks, just like in normal mocha test NetworkTest > API > eg: test.beforeAll. > we can add the payload (data there).
+
+features > dir support > hooks.js
+
+Login with username and password. > lets add in before Hooks.
+
+Ref: https://github.com/cucumber/cucumber-js/blob/main/docs/support_files/hooks.md
+
+Before steps - execute this...
+each steps as---
+Given, When, Then etc.
+
+
+We can always take a screenshots if there's a failure in the step! <________________
+
+AfterStep(async function ({ result }) {
+
+    if (result.status === Status.FAILED) {
+        await this.page.screenshot({ path: 'failedscreenshot.png' }); <-------
+    }
+
+
+});
+
+Note:
+
+const { After, Before, BeforeStep, AfterStep, Status } = require('@cucumber/cucumber');
+
+change > Ecommerce.feature >
+
+Then Verify "zara coat 3" is displayed in the Cart
+TO
+Then Verify "zara coat 4" is displayed in the Cart
+
+Run again: npx cucumber-js --exit
+
+failedscreenshot.png > generated.
+
+
+++++++Cucumber Tags++++++
+
+lets copy Ecommerce.feature > and paste it as ErrorValidations.feture
+
+Feature: Ecommerce validations
+
+  Scenario: Placing the order
+    Given a login to application2 with "kaung79@hotmail.com" and "Totetote01"
+    Then Verify Error message is displayed
+	
+collect the code from UITest spec and put in steps.js
+
+// await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+// console.log(await page.title());
+// await page.locator("#username").fill("kaungoo@yahoo.com");
+// await page.locator("[type = 'password']").fill("Chawchaw01");
+// await page.locator("#signInBtn").click();
+// console.log(await page.locator("[style*='block']").textContent());
+// //Assertion
+// await expect(page.locator("[style*='block']")).toContainText('Incorrect username/password.');	
+
+
+if I ran cucumber-js --exit, which it will run ALL the files.
+
+Only specific feature file
+Example: npx cucumber-js features/ErrorValidation.feature --exit
+
+
+Given('a login to application2 with {string} and {string}', { timeout: 100 * 1000 }, async function (username, password) {
+
+    await this.page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    console.log(await this.page.title());
+    await this.page.locator("#username").fill(username);
+    await this.page.locator("[type = 'password']").fill(password);
+    await this.page.locator("#signInBtn").click();
+});
+
+Then('Verify Error message is displayed', { timeout: 100 * 1000 }, async function () {
+    console.log(await this.page.locator("[style*='block']").textContent());
+    //Assertion
+    await expect(this.page.locator("[style*='block']")).toContainText('Incorrect username/password.');
+});
+
+After run this
+
+Example: npx cucumber-js features/ErrorValidation.feature --exit
+
+
+.LoginPage Practise | Rahul Shetty Academy
+.Incorrect username/password.
+.App exit.
+.
+
+1 scenario (1 passed)
+2 steps (2 passed)
+
+Now we have two features - 
+
+Ecommerce.feture
+ErrorValidation.feature
+
+---we wil going to add a tag----
+
+FOr Ecommerce add this tag
+
+
+Feature: Ecommerce validations
+@Regression <--------------------------------------------
+  Scenario: Placing the order
+    Given a login to application with "kaung79@hotmail.com" and "Totetote01"
+    When Add "zara coat 3" to Cart
+    Then Verify "zara coat 3" is displayed in the Cart
+    When Enter valid details and Place the order
+    Then Verify order in the Order History
+	
+For Error Validation add this tag
+	
+Feature: Ecommerce validations
+@Validation <--------------------------------------------
+  Scenario: Placing the order
+    Given a login to application2 with "kaung79@hotmail.com" and "Totetote011"
+    Then Verify Error message is displayed	
+	
+	
+To Run only Regression >
+
+RUN THIS :   npx cucumber-js --tags "@Regression" --exit	
+
+
+
+To Run only Validation >
+
+npx cucumber-js --tags "@Validation" --exit
+
+Together with Hooks
+
+example--
+
+https://github.com/cucumber/cucumber-js/blob/main/docs/support_files/hooks.md
+
+Before({tags: "@Regression"}, function () {
+  // This hook will be executed before scenarios tagged with @Regression
+});
+
+Before({tags: "@Regression and @Validation"}, function () {
+  // This hook will be executed before scenarios tagged with @Regression and @Validation
+});
+
+
+####Cucumber Parameterization ####
+
+#1. Add Outline <------------
+
+example: 
+Scenario Outline
+
+#2. Add Example <-----------
+
+Example:
+| username 			 | password    |
+|kaung79@hotmail.com | Totetote011 |
+
+
+
+#3. replace the hard coded values with the <parameter name> <---------------
+
+Example:
+Given a login to application2 with "<username>" and "<password>"
+
+Example--
+
+Feature: Ecommerce validations
+@Validation
+  Scenario Outline: Placing the order
+    Given a login to application2 with "<username>" and "<password>"
+    Then Verify Error message is displayed
+	
+Examples:
+    | username             | password     |
+    | kaung79@hotmail.com  | Totetote011  |
+
+-------------------------------------------------------------
+
+Feature: Ecommerce validations
+@Regression
+  Scenario Outline: Placing the order
+    Given a login to application with "kaung79@hotmail.com" and "Totetote01"
+    When Add "zara coat 3" to Cart
+    Then Verify "zara coat 3" is displayed in the Cart
+    When Enter valid details and Place the order
+    Then Verify order in the Order History
+
+    Examples:
+        | username             | password    |
+        | kaung79@hotmail.com  | Totetote01  |
+
+####Cucumber Parallel####
+
+Cucumber can only run in a Scenarios level NOT on feature level.
+
+Lets stay I have two Scenarios like this..
+
+@Regression
+  Scenario Outline: Placing the order
+    Given a login to application1 with "<username>" and "<password>"
+	
+@Validation
+  Scenario Outline: Placing the order
+    Given a login to application2 with "<username>" and "<password>"
+    Then Verify Error message is displayed	
+	
+To Run this ADD in Parallel...2 at a time
+
+npx cucumber-js features/Ecommerce.feature --parallel 2 --exit 
+
+####HTML Report####
+
+ADD: --format html:cucumber-report.html
+
+npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html
+
+
+####Rerun| Retry Failed Test###
+
+ADD: --retry 1
+
+npx cucumber-js --tags "@Regression" --retry 1 --exit --format html:cucumber-report.html
+
+Adding all the different types of command in the package.json
+
+	"CucumberRegression":"npx cucumber-js --tags @Regression --exit",
+    "CucumberValidation":"npx cucumber-js --tags @Validation --exit",
+    "CucumberParallel":"npx cucumber-js features/Ecommerce.feature --parallel 2 --exit",
+    "CucumberParallelHTML":"npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html"
+	
+!!!!To RUN!!!!
+
+npm run CucumberRegression
+
+######Azure & Playwright cloud workspace resource creation######
+
+#1. Running test
+
+#2. Cloud Host
+
+----
+
+setting up an account > google > Azure Devops > try for free.
+
+Playwright Testing Workspace > Azure subscription 1 > Resource group "name it" > Instance Name "name it" > Region "East US". > Review and Create.
+
+go to google > azure playwright 
+
+
+Quick start: Run Playwright tests at scale - Azure > 
+
+
+#1. Azure free Account
+#2. Playwright project from my machine to Cloud.
+
+
+
+

@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","7576","@Web Popup validations","","Mon Jul 07 12:43:26 EDT 2025","passed","Mon Jul 07 12:43:33 EDT 2025","","MoreValidations.spec.js","",""
+"","5329","Screenshot & Visual comparision","","Mon Jul 07 12:43:34 EDT 2025","passed","Mon Jul 07 12:43:39 EDT 2025","","MoreValidations.spec.js","",""
+"","1735","visual","","Mon Jul 07 12:43:39 EDT 2025","failed","Mon Jul 07 12:43:41 EDT 2025","","MoreValidations.spec.js","",""

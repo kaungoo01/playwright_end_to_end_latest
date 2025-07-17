@@ -1,0 +1,243 @@
+5/30
+#1.
+
+Playwright, why is better?
+1. "Auto-wait" capability https://playwright.dev/docs/actionability, it wait until the element is visiable, stable, interactable! 
+
+2. Cross-browser
+
+3. Mutiplatform
+
+4. Code in any languages.
+
+-----------------------------
+
+Advance Features-
+
+1. Tracing and debugging > video records (trace each frame by frame) + screenshots 
+
+2. Interception > network calls | modify the UI
+
+3. Browser Context > loggin info to save and transfer across your test suite
+
+4. Codegen Tool > Recording actions.
+
+------------------------------
+Course structure--
+
+1. Will use Javascript/TypeScript Focus
+
+2. Cover web and api testing.
+
+------------------------------
+
+Installing NPM + NODE + Playwright Dependencies
+
+
+Upgrading npm
+CMD > as Admin > npm install -g npm-windows-upgrade > 10.7
+
+Upgrading node
+https://nodejs.org/en/download/prebuilt-installer/current > just downloaded and launched the msi > v22
+
+Create a folder > C:\Users\koo\OneDrive - BGC Partners, O365 Tenant\Documents\Playwright
+
+Install playwright dependencies > Opend in Vs code > terminal > npm init playwright
+
+If got an error
+
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException   
+    + FullyQualifiedErrorId : UnauthorizedAccess
+	
+	
+go to powershell >
+Set-ExecutionPolicy RemoteSigned  > Y
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser	 > Y
+
+again: Install playwright dependencies > Opend in Vs code > terminal > npm init playwright
+Yes
+javascript
+Yes to all
+
+folder | structure created > playwright.config.js > all the configuration > main thing > Like a test Runner*********
+folder | structure created > test folders > main thing
+
+---------------------------------
+
+------Test Annotation and Async Await---
+
+to execute the test
+>>>>> npx playwright test >  playwright module > test > testDir > ./tests
+
+------Browser Context and Page Fixture---
+
+//test('Test One browser Fixture', async ({ browser })
+//test('Test Two Page Fixture', async ({ page })
+
+------Playwright conf file | test runner---
+
+#1. Browser
+use: {
+
+    browserName : 'chromium' }
+
+
+#2. Timeout
+timeout: 30 * 1000,
+  expect: {
+    timeout: 5000,
+  }
+
+#3. Run test
+
+{
+  testDir: './tests',
+
+module.exports = defineConfig({
+  testDir: './tests'
+  
+#4 to execute the test
+>>>>> npx playwright test >  playwright module > test > testDir > ./tests
+
+example--
+npx playwright test UIBasicstest.spec.js --debug
+
+
+Run the multi-browser---
+
+Browser
+use: {
+
+    browserName : 'chromium' } or 'firefox' etc.
+
+To test only one
+
+uiTesting.spec.js > add .only
+
+test.only('Test Two Page Fixture', async ({ page }) => {
+
+    await page.goto("https://google.com//");
+
+});
+
+#6. To run headless all the time
+config > use: > headless : true or false
+
+-----PlayWright Basic methods -------
+
+---Locator and how to type(sent) into elements---
+
+
+--Drop down---
+
+select dropdown > tag as select > option value > 
+
+const dropDown = page.locator("select.form-control");  "tag.class"
+await dropDown.selectOption("Consultant"); selectOtion method  > pick "Consultant"
+
+//pause the site   !!!!!!!!!!!!!!!!!
+await page.pause();
+
+--Radio Button | Check boxes--
+
+const radioButton = page.locator(".radiotextsty");
+await radioButton.last().click();
+
+const okButton = page.locator("#okayBtn");
+await okButton.click();
+
+//checkBox
+
+const termsCheckBox = page.locator("#terms");
+await termsCheckBox.click();
+
+//assertion Check Box
+await expect(termsCheckBox).toBeChecked();
+
+//Make it Unckeck again
+await termsCheckBox.uncheck();
+
+//assertion Check Box, Not Checked
+expect(await(termsCheckBox).isChecked()).toBeFalsy();
+
+
+--Async await with Assertion | validate attributes--
+
+
+
+--Child window | tabs | switching browsers--
+
+//Create a newPage and clicking for new page need to happen in parallel
+    //User Promise.all
+    //Add both as an array
+    const [newPage] = await Promise.all( //can be add another like [newPage,newPage2, newPage3 ]
+        [
+            context.waitForEvent('page'), //listen for any new page pending, rejected, fulfilled
+            blinkingURL.click(), //Open a new tab
+        ])
+
+    //Place the domain obj Back to the old 'page' and pastse in Username
+    //back to page
+    page.locator("#username").fill(domain);
+
+
+--Inspector | Trace Viewers | COdegen Tool--
+
+Inpector --
+WHen test failed, when the test , run as debug mode
+npx playwright test <name of file.js> --debug 
+
+
+example--
+npx playwright test clientSite.spec.js --debug
+
+Playwright Inspector will launch!
+
+it will show each and every steps
+
+Log are called 'Trace Viewers'
+
+!!!!!!!Click Explore icon on the top!!!! > and click on the element to generate the CSS selector!!!!!!!!!!!!!!!!!!!!!!
+
+--Codegen Tool--
+
+Record and playback -- no recommended. 
+npx playwright codegen <URL>
+
+eg.
+npx playwright codegen http://www.google.com
+
+Inspector proumpt will pop up and do the action , it will record it.
+At the end of it, copy it and pastsed in the .js code!
+
+
+
+----Test Traces, HTML reports, logs and Screenshots----
+
+
+screenshots > config file > reporter: html > use > screenshot: 'on'
+collect the trace > config file > reporter: html > use > trace: 'on'
+
+Run the test..
+
+Playwright folder > test-results and playwright-report > in this page> you'll be both screenshot and trace (download or click)
+
+Another way > test-results > test file > trace.zip > download > trace.playwright.dev > upload it.
+
+!!!!!!!!If I want trace file only on failed test file!!!!!!!!
+
+collect the trace > config file > reporter: html > use > trace: 'retain-on-failure'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
