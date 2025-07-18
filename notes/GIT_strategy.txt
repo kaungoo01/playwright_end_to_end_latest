@@ -1,0 +1,153 @@
+✅ Step-by-Step: Setup Your Project on a New PC
+🔹 1. Install Node.js
+Go to: https://nodejs.org
+Download and install the LTS version (e.g., Node 20.x.x).
+
+After installation, open a terminal and check:
+
+bash
+
+node -v
+npm -v
+
+
+🔹 2. Clone Your GitHub Repository
+Open a terminal or Git Bash and run:
+
+bash
+
+git clone https://github.com/kaungoo01/playwright-cucumber-e2e.git
+cd playwright-cucumber-e2e
+
+
+🔹 3. Install Project Dependencies
+Inside the project directory (playwright-cucumber-e2e), run:
+
+bash
+
+npm install
+This reads your package.json and installs:
+
+Playwright
+
+Cucumber
+
+TypeScript
+
+Any other required libraries
+
+
+🔹 4. Install Playwright Browsers
+
+After installing packages, run:
+
+bash
+
+npx playwright install
+This will download Chromium, Firefox, and WebKit for Playwright.
+
+
+
+🔹 5. Run Your Tests
+
+To run tests with Cucumber and Playwright:
+
+bash
+
+npx cucumber-js
+Or, if you already have a script defined in package.json, you can run:
+
+bash
+
+npm test
+
+
+🛠 Optional: VS Code Setup
+If you're using Visual Studio Code:
+
+Open the folder playwright-cucumber-e2e
+
+Install these VS Code extensions:
+
+ESLint
+
+Prettier
+
+Playwright Test for VS Code
+
+
+🧪 Bonus: Run a Single Feature or Tag
+Example:
+
+bash
+
+npx cucumber-js --tags @smoke
+Or a specific file:
+
+bash
+
+npx cucumber-js features/my-feature-file.feature
+
+
+A senior QA engineer or SDET typically does this:
+
+Scenario	What They Do
+Writing/updating tests	Let CI (Option 1) auto-run on push
+
+AUT gets new build	Use manual GitHub trigger or scheduled job (Option 2)
+
+CI/CD pipeline	Integrate tests into deployment flow (Option 3)
+
+Cost-conscious setup	Only auto-run critical tests on push; run full suite on demand or after deploy
+Reliability	Use tagging (@smoke, @regression) and split test suites to control scope
+
+✅ Option 1 — Code Push Trigger (CI):
+When?
+
+You add new test scripts, fix bugs, or update configuration in your Playwright repo.
+
+What happens?
+
+GitHub Actions automatically runs your test suite every time you push code.
+
+Great for quick validation of test logic and structure.
+
+Why QA cares?
+
+Ensures new test cases don’t break existing ones.
+
+Keeps your test suite clean and passing at all times.
+
+✅ Option 2 — Manual Run (AUT/Website updated):
+When?
+
+The QA/test site you’re testing gets updated with a new build (new features, bug fixes, etc.).
+
+No change in your Playwright code, but you want to re-run tests to validate.
+
+What happens?
+
+You manually trigger GitHub Actions from the GitHub UI or API (or scheduled run).
+
+Only runs when you choose — perfect for validating deployments.
+
+Why QA cares?
+
+Allows QA to verify the site without pushing new test code.
+
+Prevents unnecessary GitHub Action runs and costs.
+
+✅ Option 3 — Full Pipeline from Azure (End-to-End CD flow):
+When?
+
+You want to integrate your QA tests into the end of a deployment pipeline.
+
+What happens?
+
+After Azure deploys the latest version of the web app to QA/staging, it triggers your Playwright GitHub Action run automatically.
+
+Why QA cares?
+
+This guarantees the deployed site is tested automatically after every release.
+
+Ideal for release readiness validation.

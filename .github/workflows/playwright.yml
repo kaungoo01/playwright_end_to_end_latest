@@ -33,7 +33,10 @@ jobs:
         run: npm run webTests
         
       - name: Run API Tests
-        run: npm run APITests        
+        run: npm run APITests
+        
+      - name: Run API Storage Tests
+        run: npm run APIstorageSession        
 
       # Debug: List root directory files after test run
       - name: List root directory files after tests

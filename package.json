@@ -7,6 +7,7 @@
     "regression": "npx playwright test --grep=@regression",
     "webTests": "npx playwright test --grep=@Web",
     "APITests": "npx playwright test --grep=@API",
+    "APIstorageSession":"npx playwright test WebAPIPart4_Session_Stroage.spec.js",
     "FireFoxConfig": "npx playwright test tests/MoreValidations.spec.js --config playwright.config1.js --project=FireFox",
     "MoreValidationsAllure": "npx playwright test --grep=@Web --reporter=line,allure-playwright",
     "E2EpageObjectData": "npx playwright test tests/end2endTestRefPO_POM_DATA.spec.js",
