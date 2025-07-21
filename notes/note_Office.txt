@@ -1849,7 +1849,57 @@ azure: run it , parallel.
 go to playwright portal > resource > check the test results.
 
 
+#####Azure pipelines / Repos and Playwright Repos #####
 
+Set up for Repo to Git hub
+
+Azure also have pipelines to act as Git hub >
+Azure Devops > portal.azure.com > search "Azure Devops" > My Azure Devops Organization > Create One > TestSpace > upload my repo > 
+
+local > git init
+local > git remote add orgin <URL> --azure service code that is in the cloud.
+local > git add .
+local > git status <check it out>
+local > got commit
+local > git push origin --all
+
+This will add ALL into Repo > check the refrence : https://learn.microsoft.com/en-us/azure/playwright-testing/quickstart-automate-end-to-end-testing?tabs=github&pivots=playwright-test-runner
+
+We need to update our playwright.service.config.js > by providing 4 key areas...
+
+#1. workDir > test/
+#2. Service URL > $(PLAYWRIGHT_SERVICE_URL) > New variable > wss://.......api , can get it from the dashboard
+go to azure pipeline > service connections > create > Azure resource Management > suscription (free \ one worker) (pay \ 20 workers) > connection name.
+#3. Running script > workDir >
+#4. report Dir > tests/playwright-report/
+
+Create a file > playwright/azure-pipeline.yml
+
+Name a Service Name: add in azureSubscription: 'Service Name'
+
+scriptLocation: 'inLineScript'
+targetPath: tests/playwright-report/
+
+git add .
+commit
+git push
+
+
+check this file is in the repo >
+
+Pipelines > create pipeline > Existing Azure YAML > give a path  > RUN! (just like Github)
+
+
+
+
+
+git remote set-url origin https://github.com/kaungoo01/playwright-cucumber-e2e.git
+
+git remote set-url origin https://github.com/kaungoo01/Generative-AI-AI-Agents-for-Software-Testing
+
+
+
+ 
 
 
 
