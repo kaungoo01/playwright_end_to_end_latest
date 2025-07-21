@@ -10,7 +10,6 @@ Feature: Ecommerce validations
     Examples:
         | username             | password    |
         | kaung79@hotmail.com  | Totetote01  |
-        | anshika@gmail.com    | Iamking@000 |
 
 @Validation
   Scenario Outline: Placing the order
