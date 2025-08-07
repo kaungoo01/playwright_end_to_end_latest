@@ -37,7 +37,13 @@ jobs:
         run: npm run APITests
         
       - name: Run API Storage Tests
-        run: npm run APIstorageSession        
+        run: npm run APIstorageSession     
+
+      - name: Run Report Manager Create New Job Tests
+        run: npm run ReportManagerCreateaNewJob   
+
+      - name: Run Report Manager Create New DB Handler Tests
+        run: npm run ReportManagerCreateDBHandler   
 
       # Debug: List root directory files after test run
       - name: List root directory files after tests
