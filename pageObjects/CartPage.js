@@ -3,7 +3,7 @@ const { expect } = require('@playwright/test');
 class CartPage {
     constructor(page) {
         this.page = page;
-        // Locators
+        // Locators 1st
         this.cartProducts = page.locator("div li").first();
         // this.cartProducts = page.locator("div[class='cartSection'] h3").first();
         this.checkout = page.locator("text=Checkout");
