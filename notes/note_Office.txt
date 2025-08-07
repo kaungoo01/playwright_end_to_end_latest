@@ -96,8 +96,24 @@ timeout: 30 * 1000,
 module.exports = defineConfig({
   testDir: './tests'
   
-#4 to execute the test
->>>>> npx playwright test >  playwright module > test > testDir > ./tests
+#4 to execute the test ###################################################################################RUN THE TEST########################################################################
+
+>>>>> npx playwright test >  playwright module > test > testDir > ./tests\
+
+# Run specific test file
+npx playwright test tests/Calendar.spec.js
+
+# Run all tests in the tests folder
+npx playwright test tests/
+
+# Run tests with a specific pattern
+npx playwright test tests/ --grep "Login"
+
+# Run in headed mode (see the browser)
+npx playwright test tests/dropDown.spec.js --headed
+
+# Run with specific browser
+npx playwright test tests/dropDown.spec.js --project=chromium
 
 example--
 npx playwright test UIBasicstest.spec.js --debug
