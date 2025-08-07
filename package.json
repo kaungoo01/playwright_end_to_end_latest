@@ -14,7 +14,9 @@
     "CucumberRegression": "npx cucumber-js --tags @Regression --exit",
     "CucumberValidation": "npx cucumber-js --tags @Validation --exit",
     "CucumberParallel": "npx cucumber-js features/Ecommerce.feature --parallel 2 --exit",
-    "CucumberParallelHTML": "npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html"
+    "CucumberParallelHTML": "npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html",
+    "ReportManagerCreateaNewJob": "npx playwright test RM01_E2E_Create_Job.spec.js",
+    "ReportManagerCreateDBHandler":"npx playwright test RM02_E2E_Create_DB_Handler.spec.js"
   },
   "keywords": [],
   "author": "",
