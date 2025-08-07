@@ -7,20 +7,20 @@
     "regression": "npx playwright test --grep=@regression",
     "webTests": "npx playwright test --grep=@Web",
     "APITests": "npx playwright test --grep=@API",
-    "APIstorageSession":"npx playwright test WebAPIPart4_Session_Stroage.spec.js",
+    "APIstorageSession": "npx playwright test WebAPIPart4_Session_Stroage.spec.js",
     "FireFoxConfig": "npx playwright test tests/MoreValidations.spec.js --config playwright.config1.js --project=FireFox",
     "MoreValidationsAllure": "npx playwright test --grep=@Web --reporter=line,allure-playwright",
     "E2EpageObjectData": "npx playwright test tests/end2endTestRefPO_POM_DATA.spec.js",
-    "CucumberRegression":"npx cucumber-js --tags @Regression --exit",
-    "CucumberValidation":"npx cucumber-js --tags @Validation --exit",
-    "CucumberParallel":"npx cucumber-js features/Ecommerce.feature --parallel 2 --exit",
-    "CucumberParallelHTML":"npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html"
+    "CucumberRegression": "npx cucumber-js --tags @Regression --exit",
+    "CucumberValidation": "npx cucumber-js --tags @Validation --exit",
+    "CucumberParallel": "npx cucumber-js features/Ecommerce.feature --parallel 2 --exit",
+    "CucumberParallelHTML": "npx cucumber-js features/Ecommerce.feature --parallel 2 --exit --format html:cucumber-report.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.54.2",
     "@types/node": "^20.12.13",
     "allure-playwright": "^3.3.0"
   },
